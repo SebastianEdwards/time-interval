@@ -21,20 +21,10 @@ module TimeInterval
     def initialize(time_with_duration, times)
       @time_with_duration = time_with_duration
       @length = times
-
-      @enumerator = Enumerator::Lazy.new(0...times) do |yielder, i|
-        if i == 0
-          yielder.yield time_with_duration
-        else
-          interval = time_with_duration
-          i.times { interval = interval.step }
-          yielder.yield interval
-        end
-      end
     end
 
     def each(&block)
-      @enumerator.each(&block)
+      enumerator.each(&block)
     end
 
     def iso8601
@@ -42,6 +32,20 @@ module TimeInterval
         "R/#{@time_with_duration.iso8601}"
       else
         "R#{length}/#{@time_with_duration.iso8601}"
+      end
+    end
+
+    private
+
+    def enumerator
+      @enumerator ||= Enumerator::Lazy.new(0...length) do |yielder, i|
+        if i == 0
+          yielder.yield @time_with_duration
+        else
+          interval = @time_with_duration
+          i.times { interval = interval.step }
+          yielder.yield interval
+        end
       end
     end
   end
