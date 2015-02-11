@@ -1,20 +1,32 @@
 module TimeInterval
   class Duration
     def self.parse(duration_str)
-      y = duration_str['Y'] ? duration_str.match(/(\d+)Y/)[1].to_i : 0
-      m = duration_str['M'] ? duration_str.match(/(\d+)M/)[1].to_i : 0
-      w = duration_str['W'] ? duration_str.match(/(\d+)W/)[1].to_i : 0
-      d = duration_str['D'] ? duration_str.match(/(\d+)D/)[1].to_i : 0
-      if duration_str['T']
-        h = duration_str['H'] ? duration_str.match(/T.*(\d+)H/)[1].to_i : 0
-        mi = duration_str['M'] ? duration_str.match(/T.*(\d+)M/)[1].to_i : 0
-        s = duration_str['S'] ? duration_str.match(/T.*(\d+)S/)[1].to_i : 0
+      if duration_str['PT']
+        date_str = nil
+        time_str = duration_str
+      else
+        date_str, time_str = duration_str.split('T')
+      end
+
+      if date_str
+        y = date_str['Y'] ? date_str.match(/(\d+)Y/)[1].to_i : 0
+        m = date_str['M'] ? date_str.match(/(\d+)M/)[1].to_i : 0
+        w = date_str['W'] ? date_str.match(/(\d+)W/)[1].to_i : 0
+        d = date_str['D'] ? date_str.match(/(\d+)D/)[1].to_i : 0
+      else
+        y = m = w = d = 0
+      end
+
+      if time_str
+        h = time_str['H'] ? time_str.match(/(\d+)H/)[1].to_i : 0
+        mi = time_str['M'] ? time_str.match(/(\d+)M/)[1].to_i : 0
+        s = time_str['S'] ? time_str.match(/(\d+)S/)[1].to_i : 0
       else
         h = mi = s = 0
       end
 
       new(years: y, months: m, weeks: w, days: d, hours: h, minutes: mi,
-      seconds: s)
+          seconds: s)
     end
 
     attr_reader :years, :months, :weeks, :days, :hours, :minutes, :seconds
