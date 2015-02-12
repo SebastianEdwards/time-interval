@@ -18,6 +18,14 @@ module TimeInterval
       @end_time = end_time
     end
 
+    def ==(other)
+      return false unless other.is_a? TimePair
+
+      start_time == other.start_time && end_time == other.end_time
+    end
+
+    alias_method :eql?, :==
+
     def iso8601
       "#{start_time.iso8601}/#{end_time.iso8601}"
     end

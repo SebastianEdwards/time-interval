@@ -31,6 +31,14 @@ module TimeInterval
       @forwards = forwards
     end
 
+    def ==(other)
+      return false unless other.is_a? TimeWithDuration
+
+      start_time == other.start_time && end_time == other.end_time
+    end
+
+    alias_method :eql?, :==
+
     def end_time
       if forwards?
         duration.add_to start_time
