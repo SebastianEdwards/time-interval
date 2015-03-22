@@ -32,7 +32,7 @@ module TimeInterval
         TimePair.parse iso8601
       end
     else
-      Time.parse iso8601
+      TimePair.parse "#{iso8601}/#{iso8601}"
     end
   end
 end

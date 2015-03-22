@@ -27,8 +27,11 @@ RSpec.describe TimeInterval do
     context 'iso8601 is not an interval' do
       let(:iso8601) { '2007-03-01T13:00:00Z' }
 
-      it 'should return a RepeatingInterval' do
-        expect(TimeInterval.parse(iso8601)).to be_a Time
+      it 'should return a TimePair with no duration' do
+        parsed = TimeInterval.parse(iso8601)
+
+        expect(parsed).to be_a TimePair
+        expect(parsed.start_time).to eq parsed.end_time
       end
     end
   end
