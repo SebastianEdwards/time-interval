@@ -43,7 +43,15 @@ module TimeInterval
     end
 
     def add_to(time)
-      time + total_seconds
+      time += years.years if years > 0
+      time += months.months if months > 0
+      time += weeks.weeks if weeks > 0
+      time += days.days if days > 0
+      time += hours.hours if hours > 0
+      time += minutes.minutes if minutes > 0
+      time += seconds.seconds if seconds > 0
+
+      time
     end
 
     def iso8601
@@ -54,16 +62,21 @@ module TimeInterval
     end
 
     def subtract_from(time)
-      time - total_seconds
+      time -= years.years if years > 0
+      time -= months.months if months > 0
+      time -= weeks.weeks if weeks > 0
+      time -= days.days if days > 0
+      time -= hours.hours if hours > 0
+      time -= minutes.minutes if minutes > 0
+      time -= seconds.seconds if seconds > 0
+
+      time
     end
 
     def present?
-      total_seconds > 0
-    end
-
-    def total_seconds
-      years.years + months.months + weeks.weeks + days.days + hours.hours +
-        minutes.minutes + seconds.seconds
+      %i(years months weeks days hours minutesseconds).any? do |unit|
+        send(unit) > 0
+      end
     end
 
     private
