@@ -33,7 +33,7 @@ RSpec.describe RepeatingInterval do
   end
 
   describe '#iso8601' do
-    let(:time) { Time.parse('2007-03-01T13:00:00Z') }
+    let(:time) { DateTime.parse('2007-03-01T13:00:00Z') }
     let(:duration) { Duration.new(months: 2) }
     let(:time_with_duration) { TimeWithDuration.new time, duration }
 

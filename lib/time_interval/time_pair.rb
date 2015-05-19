@@ -5,7 +5,7 @@ module TimeInterval
 
       fail ArgumentError unless halves.length == 2
 
-      start_time, end_time = halves.map { |time| Time.parse time }
+      start_time, end_time = halves.map { |time| DateTime.parse time }
 
       new start_time, end_time
     end
@@ -27,7 +27,7 @@ module TimeInterval
     alias_method :eql?, :==
 
     def iso8601
-      "#{start_time.iso8601}/#{end_time.iso8601}"
+      "#{start_time.iso8601}/#{end_time.iso8601}".gsub(/\+00:00/, 'Z')
     end
   end
 end

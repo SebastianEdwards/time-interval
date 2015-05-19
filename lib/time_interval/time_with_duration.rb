@@ -19,7 +19,7 @@ module TimeInterval
         fail ArgumentError
       end
 
-      new Time.parse(time), duration, forwards
+      new DateTime.parse(time), duration, forwards
     end
 
     attr_reader :start_time
@@ -49,9 +49,9 @@ module TimeInterval
 
     def iso8601
       if forwards?
-        "#{start_time.iso8601}/#{duration.iso8601}"
+        "#{start_time.iso8601}/#{duration.iso8601}".gsub(/\+00:00/, 'Z')
       else
-        "#{duration.iso8601}/#{start_time.iso8601}"
+        "#{duration.iso8601}/#{start_time.iso8601}".gsub(/\+00:00/, 'Z')
       end
     end
 
